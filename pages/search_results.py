@@ -3,43 +3,37 @@ from pages.base_page import Page
 from time import sleep
 
 
+class SearchResultsPage(Page):
+    SEARCH_BUTTON = (By.CSS_SELECTOR, "#predictive-search-option-search-keywords > button")
+    SEARCH_BOX = (By.ID, "Search-In-Template")
+    SORT = (By.CSS_SELECTOR, "#FacetFiltersForm > div > div > div > details > summary")
+    SORT_BY_PRICE_DESCENDING = (
+    By.CSS_SELECTOR, "#FacetFiltersForm > div > div > div > details > div > ul > li:nth-child(3)")
+    LAST_PAGE = (By.CSS_SELECTOR, 'a.pagination__item[aria-label="Page 3"]')
 
-class SearchResults(Page):
-    RESULT_TEXT = (By.CSS_SELECTOR, '#ProductCount')
-    PRODUCT_APPLIED = (By.CSS_SELECTOR, '#product-grid > li:nth-child(1) > div > a')
-    SORT_BTN = (By.CSS_SELECTOR, '#FacetFiltersForm > div > div > div > details > summary > span')
-    PRICE_SORT = (By.CSS_SELECTOR, '#Filter-price-descending-3')
-    SEARCH_FIELD = (By.XPATH, "//div[contains(@id, 'shopify-section-header')]")
-    SEARCH_ICON = (By.CSS_SELECTOR, '#shopify-section-header > sticky-header > header > search-modal')
+    def open_search_page(self):
+         self.open_url('https://shop.cureskin.com/search')
 
-def open_shop(self):
-    self.open_url('https://shop.cureskin.com/search')
+    def search_cureskin(self, product):
+         self.input_text(product, *self.SEARCH_BOX)
+         sleep(4)
+         self.click(*self.SEARCH_BUTTON)
+         sleep(4)
 
-def click_search_icon(self):
-    self.search(self, *self.SEARCH_ICON)
-    sleep(4)
-    self.click(*self.SEARCH_FIELD)
-    sleep(4)
+    def select_filter_price_descending(self):
+         self.click(*self.SORT)
+         sleep(2)
+         self.click(*self.SORT_BY_PRICE_DESCENDING)
+         sleep(4)
 
-def input_text(self, text):
-    self.input_text(text, *self.SEARCH_FIELD)
-    sleep(4)
-    self.click(*self.SEARCH_ICON)
-    sleep(4)
-
-def select_price(self):
-    self.click(*self.SORT_BTN)
-    sleep(2)
-    self.click(*self.PRICE_SORT)
-    sleep(4)
-
-
-def verify_filter_applied(context):
-    all_filter = context.driver.find_elements(*self.RESULT_TEXT)
-    print(all_filter)
-
-    for product in all_filter:
-        product_name = product.find_element(*self.PRODUCT_APPLIED).text
-        print(product_name)
-        assert product_name, 'Filter should select high to low'
-        assert product.find_element(*self.RESULT_TEXT).is_displayed(), 'Filter not applied'
+    def verify_sort_descending(self):
+         price_elements_first_page = self.find_elements(By.CLASS_NAME, 'price__sale')
+         first_price_text = price_elements_first_page[0].text.split('\n')[-1].strip('Rs.').replace(',', '')
+         first_price = float(first_price_text)
+         self.click(*self.LAST_PAGE)
+         sleep(2)
+         price_elements_last_page = self.find_elements(By.CLASS_NAME, 'price__sale')
+         last_price_text = price_elements_last_page[-1].text.split('\n')[-1].strip('Rs.').replace(',', '')
+         last_price = float(last_price_text)
+         print(f"The highest prise is: {first_price}, the lowest price is: {last_price}")
+         assert first_price > last_price, "Filter is not applied correctly"
