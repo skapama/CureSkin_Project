@@ -1,11 +1,10 @@
 from time import sleep
 from selenium.webdriver.support import expected_conditions as EC
+from allure_commons.types import AttachmentType
 from selenium import webdriver
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.firefox.options import Options
 
 from app.application import Application
 
@@ -22,24 +21,19 @@ def browser_init(context):
     # service = Service(driver_path)
     # context.driver = webdriver.Chrome(service=service)
 
-    context.driver = webdriver.Firefox(
-        executable_path='/Users/svetlanalevinsohn/careerist/python-selenium-automation/geckodriver')
-    options = Options()
-    options.headless = True
-    driver = webdriver.Firefox(options=options, executable_path=r'C:\Users\brown\CureskinProject\geckodriver')
+    # context.driver = webdriver.Firefox(executable_path='/Users/svetlanalevinsohn/careerist/python-selenium-automation/geckodriver')
+    # context.driver = webdriver.Safari()
 
+    #### HEADLESS MODE ####
+    driver_path = ChromeDriverManager().install()
+    service = Service(driver_path)
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    context.driver = webdriver.Chrome(
+        chrome_options=options,
+        service=service
+    )
 
-# context.driver = webdriver.Safari()
-
-#### HEADLESS MODE ####
-# driver_path = ChromeDriverManager().install()
-# service = Service(driver_path)
-# options = webdriver.ChromeOptions()
-# options.add_argument('--headless')
-# context.driver = webdriver.Chrome(
-# chrome_options=options,
-# service=service
-# )
 
 #### BROWSERSTACK ####
 # desired_cap = {
