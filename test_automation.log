@@ -1,0 +1,19 @@
+2023-07-28 08:44:24,088 - support.logger - INFO - Started scenario: User can search product on cureskin
+2023-07-28 08:44:42,002 - support.logger - INFO - Started scenario: User can search product on cureskin
+2023-07-28 08:47:26,031 - support.logger - INFO - Started scenario: User can search product on cureskin
+2023-07-28 08:49:20,532 - support.logger - INFO - Started scenario: User can search product on cureskin
+2023-07-28 08:49:27,382 - support.logger - INFO - Started step: <given "Opens Cureskin Search page">
+2023-07-28 08:49:29,487 - support.logger - INFO - Started step: <when "Searches for the cure">
+2023-07-28 08:49:38,732 - support.logger - INFO - Started step: <when "Selects sort by price, high to low">
+2023-07-28 08:49:45,176 - support.logger - INFO - Started step: <then "Verifies filter applied">
+2023-07-28 08:50:10,511 - support.logger - INFO - Started scenario: User can search product on cureskin
+2023-07-28 08:50:15,413 - support.logger - INFO - Started step: <given "Opens Cureskin Search page">
+2023-07-28 08:50:17,408 - support.logger - INFO - Started step: <when "Searches for the cure">
+2023-07-28 08:50:26,635 - support.logger - INFO - Started step: <when "Selects sort by price, high to low">
+2023-07-28 08:50:33,085 - support.logger - INFO - Started step: <then "Verifies filter applied">
+2023-07-28 11:42:53,812 - support.logger - INFO - Started scenario: User can search product on cureskin
+2023-07-28 11:42:56,696 - support.logger - INFO - Started step: <given "Opens Cureskin Search page">
+2023-07-28 11:42:58,414 - support.logger - INFO - Started step: <when "Searches for the cure">
+2023-07-28 11:43:07,771 - support.logger - INFO - Started step: <when "Selects sort by price, high to low">
+2023-07-28 11:43:11,904 - support.logger - ERROR - Step failed: <when "Selects sort by price, high to low">
+2023-07-28 15:12:22,698 - support.logger - INFO - Started scenario: User can search product on cureskin

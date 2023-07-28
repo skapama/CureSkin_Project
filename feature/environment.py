@@ -1,45 +1,36 @@
-import logging
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.firefox.service import Service as FirefoxService
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.wait import WebDriverWait
+from webdriver_manager.chrome import ChromeDriverManager
 from app.application import Application
-from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 
-
-
-def browser_init(context, test_name):
+def browser_init(context):
     """
     :param context: Behave context
-    """
+     """
+
+    ## Mobile Emulator:
+
+    mobile_emulation = {"deviceName": "iPhone SE"}
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
+    context.driver = webdriver.Chrome(options=chrome_options)
 
 
-
-    ########BROWSERSTACK############
-    desired_cap = DesiredCapabilities.CHROME.copy()
-
-
-
-    bs_user = 'sophiakapama_FWVYX5'
-    bs_key = '3wZnAS6vKM5QzdqbzoZh'
-    url = f'http://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
-    context.driver = webdriver.Remote(url, options=ChromeOptions())
-    #########################################################################
 
     context.driver.maximize_window()
     context.driver.implicitly_wait(4)
+    context.driver.wait = WebDriverWait(context.driver, 5)
+
     context.app = Application(context.driver)
 
 
 def before_scenario(context, scenario):
     print('\nStarted scenario: ', scenario.name)
-    logging.info(f'Started scenario: {scenario.name}')
-    browser_init(context, scenario.name)
+    browser_init(context)
 
 
 def before_step(context, step):
@@ -49,6 +40,7 @@ def before_step(context, step):
 def after_step(context, step):
     if step.status == 'failed':
         print('\nStep failed: ', step)
+
 
 
 def after_scenario(context, feature):
